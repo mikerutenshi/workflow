@@ -1,0 +1,4 @@
+{
+  "db": "postgres://michael:012987_Antb@workflow-db-prod.cwlzpplgbgzk.us-west-2.rds.amazonaws.com/workflow_db",
+  "accessTokenExpiration": "15m"
+}

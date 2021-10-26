@@ -1,0 +1,14 @@
+{
+  "db": {
+    "database": "workflow",
+    "port": 5432,
+    "user": "Michael",
+    "password": ""
+  },
+  "ssl": {
+    "passphrase": "012987password"
+  },
+  "secret": "justanothersecretkey",
+  "accessTokenExpiration": "1y",
+  "refreshTokenExpiration": 5 
+}

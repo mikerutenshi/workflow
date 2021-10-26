@@ -1,0 +1,16 @@
+INSERT INTO product(article_no, 
+  drawing_cost, 
+  lining_drawing_cost, 
+  sewing_cost, 
+  assembling_cost, 
+  insole_stitching_cost, 
+  sole_stitching_cost, 
+  product_category_id) 
+VALUES(${article_no}, 
+  ${drawing_cost}, 
+  ${lining_drawing_cost}, 
+  ${sewing_cost}, 
+  ${assembling_cost}, 
+  ${insole_stitching_cost}, 
+  ${sole_stitching_cost},
+  ${product_category_id})
