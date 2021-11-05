@@ -1,14 +1,15 @@
 {
   "db": {
+    "host": "host.docker.internal",
     "database": "workflow",
     "port": 5432,
-    "user": "Michael",
-    "password": ""
+    "user": "postgres",
+    "password": "secret"
   },
   "ssl": {
     "passphrase": "012987password"
   },
   "secret": "justanothersecretkey",
   "accessTokenExpiration": "1y",
-  "refreshTokenExpiration": 5 
+  "refreshTokenExpiration": 5
 }
