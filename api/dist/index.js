@@ -7,6 +7,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
+var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
+
+var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
+
 var _express = _interopRequireDefault(require("express"));
 
 var _bodyParser = _interopRequireDefault(require("body-parser"));
@@ -78,28 +82,28 @@ app.use(_bodyParser["default"].urlencoded({
 // }));
 
 var port = process.env.PORT || 8000;
-app.use('/api/v1/products', _ProductRoutes["default"]);
-app.use('/api/v1/workers', _WorkerRoutes["default"]);
-app.use('/api/v1/works', _WorkRoutes["default"]);
-app.use('/api/v1-1/works', _WorkRoutesV["default"]);
-app.use('/api/v1/workerworks', _WorkerWorkRoutes["default"]);
-app.use('/api/v1/workerreport', _WorkerReportRoutes["default"]);
-app.use('/api/v1/users', _UserRoutes["default"]);
-app.use('/api/v1/assigned-works', _AssignedWorkRoutesV["default"]);
-app.use('/api/v1/done-works', _DoneWorkRoutesV["default"]);
-app.use('/api/v1/salary-report', _SalaryReportRoutes["default"]);
-app.use('/api/v2/product-categories', _ProductCategoryRoutes["default"]);
-app.use('/api/v2/colors', _ColorRoutes["default"]);
-app.use('/api/v2/color-products', _ColorProductRoutes["default"]);
-app.use('/api/v2/product-colors', _ProductColorRoutes["default"]);
-app.use('/api/v2/labour-costs', _LabourCostRoutes["default"]);
-app.use('/api/v2/customers', _CustomerRoutes["default"]);
-app.use('/api/v2/sizes', _SizeRoutes["default"]);
-app.use('/api/v2/purchase-orders', _PurchaseOrderRoutes["default"]);
-app.use('/api/v2/purchase-order-products', _PurchaseOrderProductRoutes["default"]);
-app.use('/api/v2/works', _WorkRoutesV2["default"]);
-app.use('/api/v2/assigned-works', _AssignedWorkRoutes["default"]);
-app.use('/api/v2/worker-works', _WorkerWorkRoutesV["default"]);
+app.use('/v1/products', _ProductRoutes["default"]);
+app.use('/v1/workers', _WorkerRoutes["default"]);
+app.use('/v1/works', _WorkRoutes["default"]);
+app.use('/v1-1/works', _WorkRoutesV["default"]);
+app.use('/v1/workerworks', _WorkerWorkRoutes["default"]);
+app.use('/v1/workerreport', _WorkerReportRoutes["default"]);
+app.use('/v1/users', _UserRoutes["default"]);
+app.use('/v1/assigned-works', _AssignedWorkRoutesV["default"]);
+app.use('/v1/done-works', _DoneWorkRoutesV["default"]);
+app.use('/v1/salary-report', _SalaryReportRoutes["default"]);
+app.use('/v2/product-categories', _ProductCategoryRoutes["default"]);
+app.use('/v2/colors', _ColorRoutes["default"]);
+app.use('/v2/color-products', _ColorProductRoutes["default"]);
+app.use('/v2/product-colors', _ProductColorRoutes["default"]);
+app.use('/v2/labour-costs', _LabourCostRoutes["default"]);
+app.use('/v2/customers', _CustomerRoutes["default"]);
+app.use('/v2/sizes', _SizeRoutes["default"]);
+app.use('/v2/purchase-orders', _PurchaseOrderRoutes["default"]);
+app.use('/v2/purchase-order-products', _PurchaseOrderProductRoutes["default"]);
+app.use('/v2/works', _WorkRoutesV2["default"]);
+app.use('/v2/assigned-works', _AssignedWorkRoutes["default"]);
+app.use('/v2/worker-works', _WorkerWorkRoutesV["default"]);
 app.use(_ErrorHandler["default"]);
 app.get('/authenticate', function (req, res) {
   var cert = req.connection.getPeerCertificate();
@@ -127,8 +131,37 @@ app.get('*', function (req, res) {
 //   console.log(`Server is running on PORT ${port}`);
 // });
 
-app.listen(port, function () {
+var workflow = app.listen(port, function () {
   console.log("Server is running on PORT ".concat(port));
 });
+
+var closeGracefully = /*#__PURE__*/function () {
+  var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee() {
+    return _regenerator["default"].wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.next = 2;
+            return workflow.close();
+
+          case 2:
+            process.exit();
+
+          case 3:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+
+  return function closeGracefully() {
+    return _ref.apply(this, arguments);
+  };
+}();
+
+process.on('SIGINT', closeGracefully);
+process.on('SIGTERM', closeGracefully);
+process.on('SIGUSR2', closeGracefully);
 var _default = app;
 exports["default"] = _default;

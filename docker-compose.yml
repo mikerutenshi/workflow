@@ -4,6 +4,7 @@ services:
   api:
     build:
       context: ./api
+      target: dev
     container_name: api
     depends_on:
       - postgres
@@ -13,6 +14,7 @@ services:
       WAIT_HOSTS: postgres:5432
   postgres:
     image: postgres:latest
+    container_name: postgres
     volumes:
       - workflow-postgres-data:/var/lib/postgres/data
     environment:
