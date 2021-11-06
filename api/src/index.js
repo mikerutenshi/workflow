@@ -109,8 +109,16 @@ app.get('*', (req, res) =>
 // const server = https.createServer(opts, app).listen(port, () => {
 //   console.log(`Server is running on PORT ${port}`);
 // });
-app.listen(port, () => {
+const workflow = app.listen(port, () => {
   console.log(`Server is running on PORT ${port}`);
 });
+
+const closeGracefully = async () => {
+  await workflow.close();
+  process.exit();
+};
+process.on('SIGINT', closeGracefully);
+process.on('SIGTERM', closeGracefully);
+process.on('SIGUSR2', closeGracefully);
 
 export default app;
