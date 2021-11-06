@@ -4,23 +4,12 @@ services:
   api:
     build:
       context: ./api
-      target: dev
+      target: production
     container_name: api
     depends_on:
       - postgres
     ports:
       - 8000:8000
-    environment:
-      WAIT_HOSTS: postgres:5432
-  postgres:
-    image: postgres:latest
-    container_name: postgres
-    volumes:
-      - workflow-postgres-data:/var/lib/postgres/data
-    environment:
-      POSTGRES_PASSWORD: secret
-      POSTgRES_USER: postgres
-      POSTGRES_DB: workflow
   nginx:
     build:
       context: ./nginx
@@ -29,7 +18,3 @@ services:
       - api
     ports:
       - 80:80
-
-volumes:
-  workflow-postgres-data:
-

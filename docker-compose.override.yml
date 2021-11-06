@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  api:
+    build:
+      target: dev
+    environment:
+      WAIT_HOSTS: postgres:5432
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    volumes:
+      - workflow-postgres-data:/var/lib/postgres/data
+    environment:
+      POSTGRES_PASSWORD: secret
+      POSTgRES_USER: postgres
+      POSTGRES_DB: workflow
+
+volumes:
+  workflow-postgres-data:
+
