@@ -3,4 +3,4 @@ RUN apk add --no-cache certbot
 RUN mkdir -p /var/www/html
 COPY scripts/setup.sh /setup.sh
 RUN chmod +x /setup.sh
-COPY config/default.conf /etc/nginx/conf.d/default.conf
+COPY config /etc/nginx/conf.d
