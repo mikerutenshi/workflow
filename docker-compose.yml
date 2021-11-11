@@ -6,6 +6,7 @@ services:
     image: 705493297387.dkr.ecr.us-west-2.amazonaws.com/workflow-api
     ports:
       - 8000:8000
+    restart: always
   nginx:
     container_name: nginx
     image: 705493297387.dkr.ecr.us-west-2.amazonaws.com/workflow-nginx
@@ -13,3 +14,5 @@ services:
       - api
     ports:
       - 80:80
+      - 443:443
+    restart: always
