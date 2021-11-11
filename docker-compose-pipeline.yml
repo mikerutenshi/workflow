@@ -12,7 +12,7 @@ services:
   nginx:
     build:
       context: ./nginx
-      args:
+      environment:
         - DOMAINS=borsaworkflow.net
         - EMAIL=michaelhsusanto@gmail.com
     container_name: nginx
