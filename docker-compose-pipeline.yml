@@ -12,9 +12,6 @@ services:
   nginx:
     build:
       context: ./nginx
-      environment:
-        - DOMAINS=borsaworkflow.net
-        - EMAIL=michaelhsusanto@gmail.com
     container_name: nginx
     image: 705493297387.dkr.ecr.us-west-2.amazonaws.com/workflow-nginx
     depends_on:
