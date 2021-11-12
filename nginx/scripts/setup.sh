@@ -1,6 +1,6 @@
 #!/bin/sh
 certbot certonly -n -d $DOMAINS \
-    --webroot --webroot-path /var/www/html/ --email $EMAIL \
+    --standalone --preferred-challenges http --email $EMAIL \
     --agree-tos --expand --debug --staging
 
 
