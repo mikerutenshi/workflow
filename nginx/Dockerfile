@@ -1,4 +1,4 @@
-FROM nginx:stable-alpine
+FROM nginx:alpine
 RUN apk add --no-cache certbot
 RUN mkdir -p /var/lib/certbot
 COPY scripts/setup.sh /setup.sh
