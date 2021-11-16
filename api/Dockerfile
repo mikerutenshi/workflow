@@ -1,4 +1,4 @@
-FROM node:lts-alpine as base
+FROM public.ecr.aws/nginx/nginx:alpine as base
 WORKDIR /usr/src/app/api
 COPY package*.json ./
 
