@@ -93,11 +93,11 @@ app.get('/authenticate', (req, res) => {
   }
 });
 
-// app.get('*', (req, res) =>
-//   res.status(200).send({
-//     message: 'Welcome to this API.',
-//   }),
-// );
+app.get('*', (req, res) =>
+  res.status(200).send({
+    message: 'Welcome to this API.',
+  }),
+);
 
 // const opts = {
 //   key: fs.readFileSync(path.resolve(__dirname, './ssl/server_key.pem')),
