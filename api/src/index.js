@@ -48,29 +48,29 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 const port = process.env.PORT || 8000;
 
-app.use('/v1/products', productRoutes);
-app.use('/v1/workers', workerRoutes);
-app.use('/v1/works', workRoutes);
-app.use('/v1-1/works', workRoutesV1);
-app.use('/v1/workerworks', workerWorkRoutes);
-app.use('/v1/workerreport', workerReportRoutes);
-app.use('/v1/users', userRoutes);
-app.use('/v1/assigned-works', assignedWorkRoutesV1);
-app.use('/v1/done-works', doneWorkRoutesV1);
-app.use('/v1/salary-report', salaryReportRoutes);
+app.use('/api/v1/products', productRoutes);
+app.use('/api/v1/workers', workerRoutes);
+app.use('/api/v1/works', workRoutes);
+app.use('/api/v1-1/works', workRoutesV1);
+app.use('/api/v1/workerworks', workerWorkRoutes);
+app.use('/api/v1/workerreport', workerReportRoutes);
+app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/assigned-works', assignedWorkRoutesV1);
+app.use('/api/v1/done-works', doneWorkRoutesV1);
+app.use('/api/v1/salary-report', salaryReportRoutes);
 
-app.use('/v2/product-categories', productCategoryRoutes);
-app.use('/v2/colors', colorRoutes);
-app.use('/v2/color-products', colorProductRoutes);
-app.use('/v2/product-colors', productColorRoutes);
-app.use('/v2/labour-costs', labourCostRoutes);
-app.use('/v2/customers', customerRoutes);
-app.use('/v2/sizes', sizeRoutes);
-app.use('/v2/purchase-orders', purchaseOrderRoutes);
-app.use('/v2/purchase-order-products', purchaseOrderProductRoutes);
-app.use('/v2/works', workRoutesV2);
-app.use('/v2/assigned-works', assignedWorkRoutes);
-app.use('/v2/worker-works', workerWorkRoutesV2);
+app.use('/api/v2/product-categories', productCategoryRoutes);
+app.use('/api/v2/colors', colorRoutes);
+app.use('/api/v2/color-products', colorProductRoutes);
+app.use('/api/v2/product-colors', productColorRoutes);
+app.use('/api/v2/labour-costs', labourCostRoutes);
+app.use('/api/v2/customers', customerRoutes);
+app.use('/api/v2/sizes', sizeRoutes);
+app.use('/api/v2/purchase-orders', purchaseOrderRoutes);
+app.use('/api/v2/purchase-order-products', purchaseOrderProductRoutes);
+app.use('/api/v2/works', workRoutesV2);
+app.use('/api/v2/assigned-works', assignedWorkRoutes);
+app.use('/api/v2/worker-works', workerWorkRoutesV2);
 
 app.use(ErrorHandler);
 
