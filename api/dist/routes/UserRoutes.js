@@ -23,5 +23,6 @@ router.post('/authenticate', _UserQueries["default"].authenticate);
 router.post('/token', _UserQueries["default"].refreshToken);
 router.post('/signout', _UserQueries["default"].signOut);
 router.patch('/:id', (0, _Authorize["default"])(_role["default"].SUPERUSER), _UserQueries["default"].changeActiveStatus);
+router.put('/:id', (0, _Authorize["default"])(_role["default"].SUPERUSER), _UserQueries["default"].update);
 var _default = router;
 exports["default"] = _default;

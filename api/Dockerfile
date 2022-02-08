@@ -1,4 +1,4 @@
-FROM node:alpine as base
+FROM public.ecr.aws/docker/library/node:17-alpine3.14 as base
 WORKDIR /usr/src/app/api
 COPY package*.json ./
 

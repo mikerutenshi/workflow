@@ -27,7 +27,8 @@ module.exports = {
     create: sql('product/create.sql')
   },
   user: {
-    create: sql('user/create.sql')
+    create: sql('user/create.sql'),
+    update: sql('user/update.sql')
   },
   productCategory: {
     create: sql('product-category/create.sql'),

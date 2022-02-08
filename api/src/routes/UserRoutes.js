@@ -12,5 +12,6 @@ router.post('/authenticate', User.authenticate);
 router.post('/token', User.refreshToken);
 router.post('/signout', User.signOut);
 router.patch('/:id', authorize(Role.SUPERUSER), User.changeActiveStatus);
+router.put('/:id', authorize(Role.SUPERUSER), User.update);
 
 export default router;
