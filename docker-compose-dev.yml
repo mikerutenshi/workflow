@@ -3,16 +3,26 @@ version: "3.8"
 services:
   api:
     build:
+      context: ./api
       target: dev
+    container_name: api
     environment:
       WAIT_HOSTS: postgres:5432
     depends_on:
       - postgres
+    ports:
+      - 8000:8000
   nginx:
     build:
+      context: ./nginx
       target: dev
+    container_name: nginx
+    depends_on:
+      - api
+    ports:
+      - 80:80
   postgres:
-    image: postgres:latest
+    image: public.ecr.aws/docker/library/postgres:latest
     container_name: postgres
     volumes:
       - workflow-postgres-data:/var/lib/postgres/data
