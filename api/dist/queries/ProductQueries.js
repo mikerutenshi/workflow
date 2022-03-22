@@ -207,6 +207,75 @@ var Product = {
     })["catch"](function (err) {
       return next(err);
     });
+  },
+  importCsvUpdate: function importCsvUpdate(req, res, next) {
+    if (req.file) {
+      console.log(_util["default"].inspect(req.file));
+
+      if (req.file.size === 0) {
+        return next(new Error('Ukuran file 0'));
+      }
+
+      _fs["default"].exists(req.file.path, function (exists) {
+        if (exists) {
+          (0, _csvtojson["default"])().fromFile(req.file.path).then(function (data) {
+            var cs = new _db.pgp.helpers.ColumnSet([{
+              name: 'product_id',
+              cnd: true,
+              cast: 'int'
+            }, {
+              name: 'article_no',
+              cast: 'varchar'
+            }, {
+              name: 'drawing_cost',
+              cast: 'int'
+            }, {
+              name: 'sewing_cost',
+              cast: 'int'
+            }, {
+              name: 'assembling_cost',
+              cast: 'int'
+            }, {
+              name: 'sole_stitching_cost',
+              cast: 'int'
+            }, {
+              name: 'lining_drawing_cost',
+              cast: 'int'
+            }, {
+              name: 'insole_stitching_cost',
+              cast: 'int'
+            }, {
+              name: 'product_category_id',
+              cast: 'int'
+            }, {
+              name: 'updated_at',
+              mod: ':raw',
+              init: function init() {
+                return 'now()';
+              }
+            }]);
+            var query = _db.pgp.helpers.update(data, cs, 'product') + ' WHERE v.product_id = t.product_id';
+
+            _db.db.none(query).then(function () {
+              res.status(200).json({
+                status: 'OK',
+                message: "Berhasil disave di: ".concat(req.file.path)
+              });
+              console.log('Products imported');
+            })["catch"](function (err) {
+              return next(err);
+            });
+          });
+        } else {
+          res.status(204).json({
+            status: 'No Content',
+            message: 'File tidak ada isinya'
+          });
+        }
+      });
+    } else {
+      return next(new Error('Tolong pilih file terlebih dahulu'));
+    }
   }
 };
 var _default = Product; // export const productSeeder = Product.importCSV();
