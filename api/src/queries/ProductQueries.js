@@ -307,9 +307,11 @@ const Product = {
                   init: () => 'now()',
                 },
               ]);
-              const query =
-                pgp.helpers.update(data, cs, 'product') +
-                ' WHERE v.product_id = t.product_id';
+              const query = `${pgp.helpers.update(
+                data,
+                cs,
+                'product',
+              )} WHERE v.product_id = t.product_id`;
               db.none(query)
                 .then(() => {
                   res.status(200).json({
