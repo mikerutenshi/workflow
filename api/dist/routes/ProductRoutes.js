@@ -32,5 +32,6 @@ router["delete"]('/', (0, _Authorize["default"])([_role["default"].SUPERUSER, _r
 router.put('/:product_id', (0, _Authorize["default"])([_role["default"].SUPERUSER, _role["default"].ADMIN_PRICE]), _ProductQueries["default"].update);
 router.get('/export-csv', (0, _Authorize["default"])([_role["default"].SUPERUSER]), _ProductQueries["default"].exportCsv);
 router.post('/import-csv', (0, _Authorize["default"])([_role["default"].SUPERUSER]), upload.single('product_import'), _ProductQueries["default"].importCsv);
+router.post('/import-csv-update', (0, _Authorize["default"])([_role["default"].SUPERUSER]), upload.single('product_import'), _ProductQueries["default"].importCsvUpdate);
 var _default = router;
 exports["default"] = _default;

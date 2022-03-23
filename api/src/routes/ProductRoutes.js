@@ -29,5 +29,11 @@ router.post(
   upload.single('product_import'),
   Product.importCsv,
 );
+router.post(
+  '/import-csv-update',
+  authorize([Role.SUPERUSER]),
+  upload.single('product_import'),
+  Product.importCsvUpdate,
+);
 
 export default router;

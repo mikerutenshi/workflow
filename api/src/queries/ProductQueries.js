@@ -251,6 +251,90 @@ const Product = {
         return next(err);
       });
   },
+
+  importCsvUpdate(req, res, next) {
+    if (req.file) {
+      console.log(util.inspect(req.file));
+      if (req.file.size === 0) {
+        return next(new Error('Ukuran file 0'));
+      }
+      fs.exists(req.file.path, (exists) => {
+        if (exists) {
+          csv()
+            .fromFile(req.file.path)
+            .then((data) => {
+              const cs = new pgp.helpers.ColumnSet([
+                {
+                  name: 'product_id',
+                  cnd: true,
+                  cast: 'int',
+                },
+                {
+                  name: 'article_no',
+                  cast: 'varchar',
+                },
+                {
+                  name: 'drawing_cost',
+                  cast: 'int',
+                },
+                {
+                  name: 'sewing_cost',
+                  cast: 'int',
+                },
+                {
+                  name: 'assembling_cost',
+                  cast: 'int',
+                },
+                {
+                  name: 'sole_stitching_cost',
+                  cast: 'int',
+                },
+                {
+                  name: 'lining_drawing_cost',
+                  cast: 'int',
+                },
+                {
+                  name: 'insole_stitching_cost',
+                  cast: 'int',
+                },
+                {
+                  name: 'product_category_id',
+                  cast: 'int',
+                },
+                {
+                  name: 'updated_at',
+                  mod: ':raw',
+                  init: () => 'now()',
+                },
+              ]);
+              const query = `${pgp.helpers.update(
+                data,
+                cs,
+                'product',
+              )} WHERE v.product_id = t.product_id`;
+              db.none(query)
+                .then(() => {
+                  res.status(200).json({
+                    status: 'OK',
+                    message: `Berhasil disave di: ${req.file.path}`,
+                  });
+                  console.log('Products imported');
+                })
+                .catch((err) => {
+                  return next(err);
+                });
+            });
+        } else {
+          res.status(204).json({
+            status: 'No Content',
+            message: 'File tidak ada isinya',
+          });
+        }
+      });
+    } else {
+      return next(new Error('Tolong pilih file terlebih dahulu'));
+    }
+  },
 };
 
 export default Product;
