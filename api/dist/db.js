@@ -9,8 +9,6 @@ exports["default"] = exports.pgp = exports.db = void 0;
 
 var _bluebird = _interopRequireDefault(require("bluebird"));
 
-var _config = _interopRequireDefault(require("config"));
-
 var options = {
   promiseLib: _bluebird["default"]
 };
@@ -25,8 +23,7 @@ if (process.env.NODE_ENV !== 'production') {
   monitor.attach(options);
 }
 
-var dbConfig = process.env.RDS_CONNECTION_URL || _config["default"].get('db');
-
+var dbConfig = process.env.DATABASE_URL;
 var db = pgp(dbConfig); // test connection
 // db.connect()
 //   .then((obj) => {

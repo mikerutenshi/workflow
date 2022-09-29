@@ -9,8 +9,6 @@ exports["default"] = void 0;
 
 var _expressJwt = _interopRequireDefault(require("express-jwt"));
 
-var _config = _interopRequireDefault(require("config"));
-
 var authorize = function authorize() {
   var roles = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
@@ -18,7 +16,8 @@ var authorize = function authorize() {
     roles = [roles];
   }
 
-  return [(0, _expressJwt["default"])(_config["default"]), function (req, res, next) {
+  var secret = process.env.SECRET;
+  return [(0, _expressJwt["default"])(secret), function (req, res, next) {
     if (roles.length && !roles.includes(req.user.role)) {
       return res.status(401).json({
         status: 'Unauthorized',

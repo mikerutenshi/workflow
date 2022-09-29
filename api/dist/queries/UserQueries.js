@@ -88,7 +88,7 @@ var User = {
   authenticate: function authenticate(req, res, next) {
     _db.db.task( /*#__PURE__*/function () {
       var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(t) {
-        var activeUser, accessToken, refreshToken, encryptedAccessToken, password, userWithoutPassword, data, currentDate, refreshTokenExp, allUser;
+        var activeUser, secret, accessToken, refreshToken, encryptedAccessToken, password, userWithoutPassword, data, currentDate, refreshTokenExp, allUser;
         return _regenerator["default"].wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -101,15 +101,16 @@ var User = {
                 activeUser = _context.sent;
 
                 if (!(activeUser && _bcryptjs["default"].compareSync(req.body.password, activeUser.password))) {
-                  _context.next = 26;
+                  _context.next = 27;
                   break;
                 }
 
+                secret = process.env.SECRET;
                 accessToken = _jsonwebtoken["default"].sign({
                   sub: activeUser.id,
                   role: activeUser.role
-                }, _config["default"].secret, {
-                  expiresIn: _config["default"].accessTokenExpiration
+                }, secret, {
+                  expiresIn: process.env.ACCESS_TOKEN_EXPIRATION
                 });
                 refreshToken = _randToken["default"].uid(256);
                 encryptedAccessToken = _bcryptjs["default"].hashSync(refreshToken, 10);
@@ -118,12 +119,12 @@ var User = {
                 data.access_token = accessToken;
                 data.refresh_token = refreshToken;
                 currentDate = new Date();
-                refreshTokenExp = _DateUtil["default"].addDays(currentDate, _config["default"].refreshTokenExpiration);
-                _context.prev = 14;
-                _context.next = 17;
+                refreshTokenExp = _DateUtil["default"].addDays(currentDate, process.env.REFRESH_TOKEN_EXPIRATION);
+                _context.prev = 15;
+                _context.next = 18;
                 return t.none('UPDATE app_user SET refresh_token = $1, refresh_token_exp_date = $3 WHERE app_user.id = $2', [encryptedAccessToken, activeUser.id, refreshTokenExp]);
 
-              case 17:
+              case 18:
                 // addMinute change to addDays on prod
                 data.refresh_token_exp_date = refreshTokenExp;
                 return _context.abrupt("return", res.status(200).json({
@@ -132,43 +133,43 @@ var User = {
                   message: 'Berhasil masuk'
                 }));
 
-              case 21:
-                _context.prev = 21;
-                _context.t0 = _context["catch"](14);
+              case 22:
+                _context.prev = 22;
+                _context.t0 = _context["catch"](15);
                 return _context.abrupt("return", next(_context.t0));
 
-              case 24:
-                _context.next = 27;
+              case 25:
+                _context.next = 28;
                 break;
 
-              case 26:
+              case 27:
                 return _context.abrupt("return", res.status(401).json({
                   status: 'Unauthorized',
                   message: 'Password salah'
                 }));
 
-              case 27:
-                _context.next = 44;
+              case 28:
+                _context.next = 45;
                 break;
 
-              case 29:
-                _context.prev = 29;
+              case 30:
+                _context.prev = 30;
                 _context.t1 = _context["catch"](0);
 
                 if (!(_context.t1 instanceof QueryResultError)) {
-                  _context.next = 43;
+                  _context.next = 44;
                   break;
                 }
 
-                _context.prev = 32;
-                _context.next = 35;
+                _context.prev = 33;
+                _context.next = 36;
                 return _db.db.one('SELECT * FROM app_user WHERE username = $1', req.body.username);
 
-              case 35:
+              case 36:
                 allUser = _context.sent;
 
                 if (!allUser) {
-                  _context.next = 38;
+                  _context.next = 39;
                   break;
                 }
 
@@ -177,27 +178,27 @@ var User = {
                   message: 'Status user belum aktif. Hubungi developer'
                 }));
 
-              case 38:
-                _context.next = 43;
+              case 39:
+                _context.next = 44;
                 break;
 
-              case 40:
-                _context.prev = 40;
-                _context.t2 = _context["catch"](32);
+              case 41:
+                _context.prev = 41;
+                _context.t2 = _context["catch"](33);
                 return _context.abrupt("return", res.status(401).json({
                   status: 'Unauthorized',
                   message: 'Username ini tidak ditemukan'
                 }));
 
-              case 43:
+              case 44:
                 return _context.abrupt("return", next(_context.t1));
 
-              case 44:
+              case 45:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 29], [14, 21], [32, 40]]);
+        }, _callee, null, [[0, 30], [15, 22], [33, 41]]);
       }));
 
       return function (_x) {
@@ -316,7 +317,7 @@ var User = {
   },
   refreshToken: function refreshToken(req, res) {
     return (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4() {
-      var authedUser, currentDate, accessToken, data;
+      var authedUser, currentDate, secret, accessToken, data;
       return _regenerator["default"].wrap(function _callee4$(_context4) {
         while (1) {
           switch (_context4.prev = _context4.next) {
@@ -328,14 +329,15 @@ var User = {
             case 3:
               authedUser = _context4.sent;
               currentDate = new Date();
+              secret = process.env.SECRET;
 
               if (authedUser && _bcryptjs["default"].compareSync(req.body.refresh_token, authedUser.refresh_token)) {
                 // refresh token is authorized ask for new access token
                 accessToken = _jsonwebtoken["default"].sign({
                   sub: authedUser.id,
                   role: authedUser.role
-                }, _config["default"].secret, {
-                  expiresIn: _config["default"].accessTokenExpiration
+                }, secret, {
+                  expiresIn: process.env.ACCESS_TOKEN_EXPIRATION
                 });
                 data = {
                   access_token: accessToken
@@ -360,23 +362,23 @@ var User = {
                 });
               }
 
-              _context4.next = 11;
+              _context4.next = 12;
               break;
 
-            case 8:
-              _context4.prev = 8;
+            case 9:
+              _context4.prev = 9;
               _context4.t0 = _context4["catch"](0);
               res.status(401).json({
                 status: 'Unauthorized',
                 message: 'Refresh token is not registered'
               });
 
-            case 11:
+            case 12:
             case "end":
               return _context4.stop();
           }
         }
-      }, _callee4, null, [[0, 8]]);
+      }, _callee4, null, [[0, 9]]);
     }))();
   },
   signOut: function signOut(req, res, next) {

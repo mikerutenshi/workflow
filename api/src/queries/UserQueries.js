@@ -80,10 +80,11 @@ const User = {
           activeUser &&
           bcrypt.compareSync(req.body.password, activeUser.password)
         ) {
+          const secret = process.env.SECRET;
           const accessToken = jwt.sign(
             { sub: activeUser.id, role: activeUser.role },
-            config.secret,
-            { expiresIn: config.accessTokenExpiration },
+            secret,
+            { expiresIn: process.env.ACCESS_TOKEN_EXPIRATION },
           );
           const refreshToken = randtoken.uid(256);
           const encryptedAccessToken = bcrypt.hashSync(refreshToken, 10);
@@ -94,7 +95,7 @@ const User = {
           const currentDate = new Date();
           const refreshTokenExp = DateUtil.addDays(
             currentDate,
-            config.refreshTokenExpiration,
+            process.env.REFRESH_TOKEN_EXPIRATION,
           );
 
           try {
@@ -236,6 +237,7 @@ const User = {
       );
 
       const currentDate = new Date();
+      const secret = process.env.SECRET;
       if (
         authedUser &&
         bcrypt.compareSync(req.body.refresh_token, authedUser.refresh_token)
@@ -243,8 +245,8 @@ const User = {
         // refresh token is authorized ask for new access token
         const accessToken = jwt.sign(
           { sub: authedUser.id, role: authedUser.role },
-          config.secret,
-          { expiresIn: config.accessTokenExpiration },
+          secret,
+          { expiresIn: process.env.ACCESS_TOKEN_EXPIRATION },
         );
         const data = { access_token: accessToken };
 

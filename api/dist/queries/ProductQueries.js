@@ -254,7 +254,7 @@ var Product = {
                 return 'now()';
               }
             }]);
-            var query = _db.pgp.helpers.update(data, cs, 'product') + ' WHERE v.product_id = t.product_id';
+            var query = "".concat(_db.pgp.helpers.update(data, cs, 'product'), " WHERE v.product_id = t.product_id");
 
             _db.db.none(query).then(function () {
               res.status(200).json({

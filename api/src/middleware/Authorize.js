@@ -1,10 +1,11 @@
 import expressJwt from 'express-jwt';
-import secret from 'config';
 
 const authorize = (roles = []) => {
   if (typeof roles === 'string') {
     roles = [roles];
   }
+
+  const secret = process.env.SECRET;
 
   return [
     expressJwt(secret),

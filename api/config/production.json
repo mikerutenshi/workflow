@@ -1,4 +1,0 @@
-{
-  "db": "postgres://michael:1001KataKunci@borsa-db.cwlzpplgbgzk.us-west-2.rds.amazonaws.com/workflow_db",
-  "accessTokenExpiration": "15m"
-}
