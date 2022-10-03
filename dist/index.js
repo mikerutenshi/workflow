@@ -81,7 +81,7 @@ app.use(_bodyParser["default"].urlencoded({
 //   ]
 // }));
 
-var port = 8000;
+var port = process.env.PORT || 8000;
 app.use('/api/v1/products', _ProductRoutes["default"]);
 app.use('/api/v1/workers', _WorkerRoutes["default"]);
 app.use('/api/v1/works', _WorkRoutes["default"]);
