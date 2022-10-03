@@ -46,7 +46,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //   ]
 // }));
 
-const port = 8000;
+const port = process.env.PORT || 8000;
 
 app.use('/api/v1/products', productRoutes);
 app.use('/api/v1/workers', workerRoutes);
