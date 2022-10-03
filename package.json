@@ -3,7 +3,7 @@
   "version": "1.1.0",
   "description": "New V1 API migrate to ebs arm server",
   "engines": {
-    "node": "16.17.0"
+    "node": "14.*"
   },
   "main": "index.js",
   "scripts": {
