@@ -21,14 +21,38 @@ var Work = {
       req.body.notes = null;
     }
 
-    _db.db.none('INSERT INTO work(spk_no, product_id, product_quantity, notes) VALUES(${spk_no}, ${product_id}, ${product_quantity}, ${notes})', req.body).then(function () {
-      res.status(201).json({
-        status: 'Created',
-        message: 'Kerjaan berhasil dibuat'
-      });
+    _db.db.manyOrNone('SELECT * FROM work WHERE spk_no = $1', req.body.spk_no).then(function (result) {
+      if (result.length == 0) {
+        _db.db.none('INSERT INTO work(spk_no, product_id, product_quantity, notes) VALUES(${spk_no}, ${product_id}, ${product_quantity}, ${notes})', req.body).then(function () {
+          res.status(201).json({
+            status: 'Created',
+            message: 'Kerjaan berhasil dibuat'
+          });
+        })["catch"](function (err) {
+          return next(err);
+        });
+      } else {
+        var work = result[0];
+        var conflictError = new Error("SPK No. ".concat(work.spk_no, " sudah pernah di-input"));
+        conflictError.code = 409;
+        return next(conflictError);
+      }
     })["catch"](function (err) {
       return next(err);
-    });
+    }); // db.none(
+    //   'INSERT INTO work(spk_no, product_id, product_quantity, notes) VALUES(${spk_no}, ${product_id}, ${product_quantity}, ${notes})',
+    //   req.body,
+    // )
+    //   .then(() => {
+    //     res.status(201).json({
+    //       status: 'Created',
+    //       message: 'Kerjaan berhasil dibuat',
+    //     });
+    //   })
+    //   .catch((err) => {
+    //     return next(err);
+    //   });
+
   },
   getAll: function getAll(req, res, next) {
     var spkNo = typeof req.query.spk_no === 'undefined' ? '' : req.query.spk_no;
