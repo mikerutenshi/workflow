@@ -14,6 +14,13 @@ const ErrorHandler = (err, req, res, next) => {
     });
   }
 
+  if (err.code == 409) {
+    return res.status(409).json({
+      status: 'Conflict',
+      message: err.message,
+    });
+  }
+
   return res.status(500).json({ message: err.message });
 };
 

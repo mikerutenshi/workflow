@@ -2,9 +2,9 @@
   "db": {
     "host": "localhost",
     "database": "workflow",
-    "port": 5433,
-    "user": "Michael",
-    "password": "secret"
+    "port": 5432,
+    "user": "postgres",
+    "password": "98049cf441664b4590d024537ed89916"
   },
   "ssl": {
     "passphrase": "012987password"
