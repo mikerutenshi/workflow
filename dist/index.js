@@ -61,26 +61,11 @@ var _SalaryReportRoutes = _interopRequireDefault(require("./routes/SalaryReportR
 
 var _ErrorHandler = _interopRequireDefault(require("./middleware/ErrorHandler"));
 
-// import https from 'https';
-// import fs from 'fs';
-// import path from 'path';
-// import expressJwt from 'express-jwt';
-// import multer from 'multer';
-// import config from 'config';
 var app = (0, _express["default"])();
 app.use(_bodyParser["default"].json());
 app.use(_bodyParser["default"].urlencoded({
   extended: false
-})); // app.use(multer({
-//   dest: '../temp'
-// }));
-// app.use(expressJwt({ secret: config.get('secret') }).unless({
-//   path: [
-//     { url: '/api/v1/users', methods: ['POST'] },
-//     '/api/v1/users/authenticate'
-//   ]
-// }));
-
+}));
 var port = process.env.PORT || 8000;
 app.use('/api/v1/products', _ProductRoutes["default"]);
 app.use('/api/v1/workers', _WorkerRoutes["default"]);
@@ -105,32 +90,11 @@ app.use('/api/v2/works', _WorkRoutesV2["default"]);
 app.use('/api/v2/assigned-works', _AssignedWorkRoutes["default"]);
 app.use('/api/v2/worker-works', _WorkerWorkRoutesV["default"]);
 app.use(_ErrorHandler["default"]);
-app.get('/authenticate', function (req, res) {
-  var cert = req.connection.getPeerCertificate();
-
-  if (req.client.authorized) {
-    res.send("Hello ".concat(cert.subject.CN, ", your certificate was issued by ").concat(cert.issuer.CN, "!"));
-  } else if (cert.subject) {
-    res.status(403).send("Sorry ".concat(cert.subject.CN, ", certificates from ").concat(cert.issuer.CN, " are not welcome here."));
-  } else {
-    res.status(401).send('Sorry, but you need to provide a client certificate to continue.');
-  }
-});
 app.get('*', function (req, res) {
   return res.status(200).send({
     message: 'Welcome to this API.'
   });
-}); // const opts = {
-//   key: fs.readFileSync(path.resolve(__dirname, './ssl/server_key.pem')),
-//   cert: fs.readFileSync(path.resolve(__dirname, './ssl/server_cert.pem')),
-//   request_cert: true,
-//   rejectUnauthorized: false,
-//   ca: [fs.readFileSync(path.resolve(__dirname, './ssl/server_cert.pem'))]
-// };
-// const server = https.createServer(opts, app).listen(port, () => {
-//   console.log(`Server is running on PORT ${port}`);
-// });
-
+});
 var workflow = app.listen(port, function () {
   console.log("Server is running on PORT ".concat(port));
 });

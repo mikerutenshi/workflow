@@ -1,11 +1,5 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-// import https from 'https';
-// import fs from 'fs';
-// import path from 'path';
-// import expressJwt from 'express-jwt';
-// import multer from 'multer';
-// import config from 'config';
 import productRoutes from './routes/ProductRoutes';
 import workerRoutes from './routes/WorkerRoutes';
 import workRoutes from './routes/WorkRoutes';
@@ -36,15 +30,6 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(multer({
-//   dest: '../temp'
-// }));
-// app.use(expressJwt({ secret: config.get('secret') }).unless({
-//   path: [
-//     { url: '/api/v1/users', methods: ['POST'] },
-//     '/api/v1/users/authenticate'
-//   ]
-// }));
 
 const port = process.env.PORT || 8000;
 
@@ -74,41 +59,12 @@ app.use('/api/v2/worker-works', workerWorkRoutesV2);
 
 app.use(ErrorHandler);
 
-app.get('/authenticate', (req, res) => {
-  const cert = req.connection.getPeerCertificate();
-  if (req.client.authorized) {
-    res.send(
-      `Hello ${cert.subject.CN}, your certificate was issued by ${cert.issuer.CN}!`,
-    );
-  } else if (cert.subject) {
-    res
-      .status(403)
-      .send(
-        `Sorry ${cert.subject.CN}, certificates from ${cert.issuer.CN} are not welcome here.`,
-      );
-  } else {
-    res
-      .status(401)
-      .send('Sorry, but you need to provide a client certificate to continue.');
-  }
-});
-
 app.get('*', (req, res) =>
   res.status(200).send({
     message: 'Welcome to this API.',
   }),
 );
 
-// const opts = {
-//   key: fs.readFileSync(path.resolve(__dirname, './ssl/server_key.pem')),
-//   cert: fs.readFileSync(path.resolve(__dirname, './ssl/server_cert.pem')),
-//   request_cert: true,
-//   rejectUnauthorized: false,
-//   ca: [fs.readFileSync(path.resolve(__dirname, './ssl/server_cert.pem'))]
-// };
-// const server = https.createServer(opts, app).listen(port, () => {
-//   console.log(`Server is running on PORT ${port}`);
-// });
 const workflow = app.listen(port, () => {
   console.log(`Server is running on PORT ${port}`);
 });
